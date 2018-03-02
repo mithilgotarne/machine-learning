@@ -77,8 +77,8 @@ def main():
 if __name__ == '__main__':
     main()
 """
-Before training, J(@):  1.6350582524876343
-After training, J(@):  0.5179388702409577
+Before training, J(@):  2.157682840216067
+After training, J(@):  0.5210831948994271
 prediction-> 1  actual-> 1.0
 prediction-> 0  actual-> 0.0
 prediction-> 0  actual-> 0.0
