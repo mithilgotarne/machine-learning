@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 def euclidian(x, y):
-    return np.sqrt(np.sum((x-y)**2))
+    return np.linalg.norm(x-y)
 
 def centroid(cluster):
     if len(cluster) <= 0:
@@ -29,7 +29,7 @@ def kmeans(num_of_clusters, data, num_of_iterations):
     print("initial clusters")
     print(data)
     centers = np.array([[175,80], [175,15], [50, 15], [50,35]])
-    #centers = np.array([ data[:,:-1].mean(axis=0) for _ in range(num_of_clusters)])
+    # centers = np.array([ data[:,:-1].mean(axis=0) for _ in range(num_of_clusters)])
     #print(centers)
 
     for itr in range(1, num_of_iterations):
@@ -76,7 +76,9 @@ def main():
     clusters, centers = kmeans(num_of_clusters, train_data, num_of_iterations)
     print("final clusters")    
     print(clusters)
-    plot(clusters)
+    centers = expand(centers)
+    centers[:,-1] += num_of_clusters
+    plot(np.append(clusters, centers, axis=0))
 
     predicted = classify(test_data, centers)
     print("predicted clusters")
