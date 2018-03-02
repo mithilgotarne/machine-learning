@@ -1,13 +1,14 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import random
 
 def euclidian(x, y):
     return np.sqrt(np.sum((x-y)**2))
 
 def centroid(cluster):
-    if len(cluster) <= 0:
+    if len(cluster) == 0:
         return 0
-    return np.sum(cluster, axis=0) / len(cluster)
+    return np.mean(cluster, axis=0)
 
 def get_centers(num_of_clusters, data):
     centers = np.zeros([num_of_clusters, len(data[0])-1])
@@ -29,7 +30,7 @@ def kmeans(num_of_clusters, data, num_of_iterations):
     print("initial clusters")
     print(data)
     centers = np.array([[175,80], [175,15], [50, 15], [50,35]])
-    # centers = np.array([ data[:,:-1].mean(axis=0) for _ in range(num_of_clusters)])
+    #centers = np.array([ data[:,:-1].mean(axis=0) for _ in range(num_of_clusters)])
     #print(centers)
 
     for itr in range(1, num_of_iterations):
@@ -50,7 +51,10 @@ def kmeans(num_of_clusters, data, num_of_iterations):
     
     return data, centers
 
-def plot(matrix):
+def plot(clusters, centers):
+    centers = expand(centers)
+    centers[:,-1] += len(centers)
+    matrix = np.append(clusters, centers, axis=0)
     plt.scatter(matrix[:,0], matrix[:,1], c=matrix[:,2], cmap='rainbow')
     plt.show()
 
@@ -69,6 +73,7 @@ def main():
     data = np.delete(data[1:], [0], axis=1)
     num_of_clusters = 4
     num_of_iterations = 100
+    random.shuffle(data)
     train_len = int(len(data) * 0.90)
     train_data = data[:train_len]
     test_data = data[train_len:]
@@ -76,46 +81,45 @@ def main():
     clusters, centers = kmeans(num_of_clusters, train_data, num_of_iterations)
     print("final clusters")    
     print(clusters)
-    centers = expand(centers)
-    centers[:,-1] += num_of_clusters
-    plot(np.append(clusters, centers, axis=0))
+    plot(clusters, centers)
 
     predicted = classify(test_data, centers)
     print("predicted clusters")
     print(predicted)
+    plot(predicted, centers)
     
 if __name__ == '__main__':
     main()
 
 """
 initial clusters
-[[  71.24   28.      0.  ]
- [  52.53   25.      0.  ]
- [  64.54   27.      0.  ]
+[[ 71.24  28.     0.  ]
+ [ 71.24  28.     0.  ]
+ [ 52.53  25.     0.  ]
  ..., 
- [ 161.76    5.      0.  ]
- [ 169.54   12.      0.  ]
- [ 173.72   10.      0.  ]]
-iter => 1 cluster count [95, 305, 2891, 309]
-iter => 2 cluster count [101, 299, 2804, 396]
-iter => 3 cluster count [103, 297, 2785, 415]
-iter => 4 cluster count [103, 297, 2777, 423]
-iter => 5 cluster count [103, 297, 2775, 425]
-iter => 6 cluster count [103, 297, 2775, 425]
+ [ 39.02   4.     0.  ]
+ [ 69.14  40.     0.  ]
+ [ 60.97   9.     0.  ]]
+iter => 1 cluster count [14, 8, 2662, 916]
+iter => 2 cluster count [13, 9, 2443, 1135]
+iter => 3 cluster count [13, 9, 2334, 1244]
+iter => 4 cluster count [13, 9, 2302, 1276]
+iter => 5 cluster count [13, 9, 2300, 1278]
+iter => 6 cluster count [13, 9, 2300, 1278]
 final clusters
-[[  71.24   28.      3.  ]
- [  52.53   25.      3.  ]
- [  64.54   27.      3.  ]
+[[ 71.24  28.     3.  ]
+ [ 71.24  28.     3.  ]
+ [ 52.53  25.     3.  ]
  ..., 
- [ 161.76    5.      1.  ]
- [ 169.54   12.      1.  ]
- [ 173.72   10.      1.  ]]
+ [ 39.02   4.     2.  ]
+ [ 69.14  40.     3.  ]
+ [ 60.97   9.     2.  ]]
 predicted clusters
-[[ 180.98    8.      1.  ]
- [ 181.89   17.      1.  ]
- [ 172.85   13.      1.  ]
+[[  48.16    6.      2.  ]
+ [  51.2     6.      2.  ]
+ [  60.4     7.      2.  ]
  ..., 
- [ 170.91   12.      1.  ]
- [ 176.14    5.      1.  ]
- [ 168.03    9.      1.  ]]
+ [ 179.97    0.      1.  ]
+ [  32.53    4.      2.  ]
+ [  50.2     5.      2.  ]]
 """    
