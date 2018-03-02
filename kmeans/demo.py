@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 def euclidian(x, y):
-    return np.linalg.norm(x-y)
+    return np.sqrt(np.sum((x-y)**2))
 
 def centroid(cluster):
     if len(cluster) <= 0:
