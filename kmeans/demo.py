@@ -25,13 +25,14 @@ def get_cluster(point, centers):
     distances = np.array([euclidian(point, j) for j in centers])
     return np.argmin(distances)
 
-def kmeans(num_of_clusters, data, num_of_iterations):
+def kmeans(num_of_clusters, data, num_of_iterations, initial_centers=None):
     data = expand(data)
     print("initial clusters")
     print(data)
-    centers = np.array([[175,80], [175,15], [50, 15], [50,35]])
-    #centers = np.array([ data[:,:-1].mean(axis=0) for _ in range(num_of_clusters)])
+    if initial_centers is None:
+        initial_centers = np.array([ data[:,:-1].mean(axis=0) for _ in range(num_of_clusters)])
     #print(centers)
+    centers = initial_centers
 
     for itr in range(1, num_of_iterations):
         for i in range(len(data)):
@@ -78,7 +79,8 @@ def main():
     train_data = data[:train_len]
     test_data = data[train_len:]
     #train_data = data
-    clusters, centers = kmeans(num_of_clusters, train_data, num_of_iterations)
+    initial_centers = np.array([[175,80], [175,15], [50, 15], [50,35]])
+    clusters, centers = kmeans(num_of_clusters, train_data, num_of_iterations, initial_centers=initial_centers)
     print("final clusters")    
     print(clusters)
     plot(clusters, centers)
