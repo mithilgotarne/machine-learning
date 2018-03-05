@@ -6,16 +6,11 @@ def z(theta, data):
 
 def hox(z):
     #print(z)
-    return 1 / (1 + exp(-z))
+    return 1.0 / (1 + exp(-z))
 
 def cost(hx, y):
     #print('hx=', hx, 'y=', y)
-    if y == 0:
-        return -log(1-hx)
-    if y == 1:
-        return -log(hx)
-    else:
-        return 0
+    return -y * log(hx) - (1-y) * log(1-hx)
 
 def j_theta(theta, data):
     total = 0
@@ -48,13 +43,15 @@ def main():
     train_len = int(len(data) * 0.90)
     train_data = data[:train_len]
     test_data = data[train_len:]
-    theta = np.ones(len(train_data[0]))
+    theta = np.zeros(len(train_data[0]))
     jtheta = j_theta(theta, train_data)
     print("Before training, J(@): ", jtheta)
 
     for i in range(num_iterations):
         theta = single_step(theta, train_data, learning_rate)
+        #print(theta)
         newjt = j_theta(theta, train_data)
+        i+=1
         if newjt < jtheta:
             jtheta = newjt
             #print(i, '->', jtheta)
@@ -62,8 +59,8 @@ def main():
             break
         
     jtheta = j_theta(theta, train_data)
-    print("After training, J(@): ", jtheta)
-
+    print(i, "After training, J(@): ", jtheta)
+    
     correct_predictions = 0
     for i in test_data:
         predicted_output = classify(i[:-1], theta)
