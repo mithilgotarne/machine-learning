@@ -31,7 +31,7 @@
 
 ### Example:
 
-**Entire class implementaion and main function is in [demo.py](/demo.py)**
+**Entire class implementaion and main function is in [demo.py](./demo.py)**
 
 #### Data: Loan Prediction
 
