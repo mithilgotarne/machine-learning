@@ -33,6 +33,8 @@
 
 **Entire class implementaion and main function is in [demo.py](./demo.py)**
 
+**Dataset is in [train.csv](./train.csv)**
+
 #### Data: Loan Prediction
 
 Motive: To check if loan will be paid or not
@@ -73,3 +75,7 @@ clf.plot_cost_history()
 ```Accuracy: 0.789189189189```
 
 ![alt text](cost_vs_iterations.png "cost_vs_iterations")
+
+### References:
+
+[Loan Dataset](https://github.com/devarajphukan/Loan-Prediction-AnalyticsVidya/blob/master/train.csv)
