@@ -29,10 +29,10 @@
 
 #### Main Function
 
-```
+```python
 data = np.genfromtxt('train.csv', delimiter=',')
 data = data[1:]
-train_len = int(len(data) * 0.70)  
+train_len = int(len(data) * 0.70)
 train_data = data[:train_len]
 test_data = data[train_len:]
 clf = LogisticRegression()
@@ -41,7 +41,9 @@ y = clf.predict(test_data[:, :-1])
 print("Accuracy:", clf.score(y, test_data[:, -1]))
 clf.plot_cost_history()
 ```
+
 #### Output
+
 ```Accuracy: 0.789189189189```
 
 ![alt text](cost_vs_iterations.png "cost_vs_iterations")
